@@ -1,0 +1,4 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "cmake.sourceDirectory": "/home/henrique/code/pocs/arduino/main_controller/.pio/libdeps/esp12e/ArduinoJson/src"
+}
