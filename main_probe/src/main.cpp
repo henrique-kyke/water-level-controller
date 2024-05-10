@@ -123,21 +123,16 @@ void printLevel(int level){
 }
 
 void initWiFi() {
-  // displayShortMessage(WIFI_CONNECTION_HEADER, "Disconnected", 2000);
-  for(int i = 0; i < 3; i++){
-    if (WiFi.status() == WL_CONNECTED) {
-      printConnectionState();
-      break;
-    } else {
-      Serial.print("Connecting to WiFi to ");
-      Serial.println(ssid);
-      WiFi.begin(ssid, password);
-      delay(2000);
-    }
+  if (WiFi.status() == WL_CONNECTED) {
+    printConnectionState();
+  } else {
+    Serial.print("Connecting to WiFi to ");
+    Serial.println(ssid);
+    WiFi.begin(ssid, password);
+    delay(2000);
+    Serial.print("Unable to connect to ");
+    Serial.println(ssid);
   }
-  Serial.print("Unable to connect to ");
-  Serial.println(ssid);
-  // displayShortMessage(WIFI_CONNECTION_HEADER, "IP: " + WiFi.localIP().toString(), 1000);
 }
 
 void setupMqttClient() {
