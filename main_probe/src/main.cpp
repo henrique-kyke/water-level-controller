@@ -8,12 +8,12 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
-const uint8_t level_1 = D2;
-const uint8_t level_2 = D3;
-const uint8_t level_3 = D4;
-const uint8_t level_4 = D5;
+const uint8_t level_1 = D4;
+const uint8_t level_2 = D5;
+const uint8_t level_3 = D6;
+const uint8_t level_4 = D7;
 
-const char* ssid = "HAPS";
+const char* ssid = "HAPS_EXT";
 const char* password = "Ruby_2.5.0";
 // const char* mqtt_server = "684ecefc61054643be107a7c6d184496.s1.eu.hivemq.cloud";
 const char* mqtt_server = "v9503cae.ala.us-east-1.emqxsl.com";
@@ -31,7 +31,7 @@ int l2;
 int l3;
 int l4;
 
-int utcOffsetInSeconds = -3*3600;
+const int utcOffsetInSeconds = -3*3600;
 
 int readLevel();
 void printLevel(int level);
@@ -54,7 +54,6 @@ void setup() {
   pinMode(level_2, INPUT);
   pinMode(level_3, INPUT);
   pinMode(level_4, INPUT);
-  // put your setup code here, to run once:
 
   espClient.setInsecure();
   client.setServer(mqtt_server, mqtt_server_port);
@@ -85,15 +84,6 @@ int readLevel(){
   l2 = digitalRead(level_2);
   l3 = digitalRead(level_3);
   l4 = digitalRead(level_4);
-
-  Serial.print("D2: ");
-  Serial.println(l1);
-  Serial.print("D3: ");
-  Serial.println(l2);
-  Serial.print("D4: ");
-  Serial.println(l3);
-  Serial.print("D5: ");
-  Serial.println(l4);
 
   if (l4 == 1){
     level = 4;
@@ -158,17 +148,17 @@ void printConnectionState() {
 void sendStatus() {
 
   JsonDocument doc;
-  char buffer[256];
+  String buffer;
   doc["sensor_1"] = l1;
   doc["sensor_2"] = l2;
   doc["sensor_3"] = l3;
   doc["sensor_4"] = l4;
   doc["level"] = level;
   doc["timestamp"] = formatDateTime();
-  size_t size = serializeJson(doc, buffer);
+  serializeJson(doc, buffer);
   Serial.print("Message to be sent:");
   Serial.println(buffer);
-  if(client.publish(mainProbeTopic, buffer, size)){
+  if(client.publish(mainProbeTopic, buffer.c_str(), true)){
     Serial.println("Message was successfully sent.");
   } else {
     Serial.println("An error occurs during message sent.");

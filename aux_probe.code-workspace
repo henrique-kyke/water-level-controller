@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "aux_probe"
+		},
+		{
+			"path": "main_probe"
+		},
+		{
+			"path": "monitor"
+		},
+		{
+			"path": "../libraries/personal/esp8266_mqttclient_setup"
+		},
+		{
+			"path": "../libraries/personal/WiFiSetup"
+		}
+	]
+}
